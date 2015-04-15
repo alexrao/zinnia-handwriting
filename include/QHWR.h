@@ -1,11 +1,26 @@
 #ifndef QHWR_H
 #define QHWR_H
 
+#if !defined(ID_QT_VERSION)
+#	error "ID_QT_VERSION NOT defined"
+#endif
+
+
+#if (ID_QT_VERSION >= 0x050000)
+#	include <QtWidgets/QWidget>
+#	include <QtWidgets/QPushButton>
+#else
+#	error "current NOT support version lower than 5.0.0"
+#endif
+
 #include <QtGui>
 #include <QPoint>
 #include <QVector>
 #include <QStringList>
+
 #include "zinnia.h"
+
+
 class LineStroke
 {
 public:

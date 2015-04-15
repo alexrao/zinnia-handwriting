@@ -44,7 +44,9 @@
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the <sys/mman.h> header file. */
-#define HAVE_SYS_MMAN_H 1
+#if !defined(MINGW32)
+# define HAVE_SYS_MMAN_H 1
+#endif
 
 /* Define to 1 if you have the <sys/param.h> header file. */
 #define HAVE_SYS_PARAM_H 1
