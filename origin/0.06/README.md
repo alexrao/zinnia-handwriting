@@ -5,3 +5,11 @@ file
 - from:
   http://sourceforge.net/projects/zinnia/
   (2015-04)
+
+
+win32-sdk
+=========
+- 037cd001483040723adfc0b22e548893  zinnia-win32-0.06.zip
+- from:
+  http://sourceforge.net/projects/zinnia/
+  (2015-04)
