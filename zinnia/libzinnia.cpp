@@ -18,9 +18,12 @@
 #include "config.h"
 #endif
 
+#if defined(_WIN32) && !defined(__CYGWIN__)
+#include <windows.h>
+#endif
 
 struct zinnia_character_t {
-	zinnia::Character *ptr;
+  zinnia::Character *ptr;
 };
 
 struct zinnia_recognizer_t {
