@@ -14,9 +14,7 @@
 #	include <QtWidgets/QApplication>
 #endif
 
-#include <iostream>
-#include "QHWR.h"
-#include "zinnia.h"
+#include "handwritor.h" /* the hand-writing ui panel */
 
 
 int main (int argc, char *argv[]) {
@@ -27,9 +25,14 @@ int main (int argc, char *argv[]) {
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("GBK"));
 #	endif
 
-    QHWR w;
-    w.setGeometry(200, 200, 300, 300);
-    w.show();
+    handwritor hw;
+    hw.setGeometry(200, 200, 300, 300);
+    hw.show();
 
     return a.exec();
-}
+} /* main */
+
+
+/*
+ * main.cpp
+ */
