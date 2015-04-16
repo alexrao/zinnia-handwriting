@@ -1,27 +1,29 @@
-TARGET = zinnia-handwriting.pro
+##
+# prj/zinnia-handwriting-qt5/zinnia-handwriting.pro
+# NOTE: please use "release", NOT debug
+
+QT += gui widgets
+
+TARGET = zinnia-handwriting
 
 TEMPLATE = app
 
 
-##
+## CXXFLAGS
 QMAKE_CXXFLAGS_RELEASE += -I../../include
 QMAKE_CXXFLAGS_RELEASE += -DMINGW32=1
 QMAKE_CXXFLAGS_RELEASE += -DID_QT_VERSION=0x050401
 
+## LDFLAGS
+LIBS += ../../zinnia/lib/libzinnia.lib
 
-##
+
+## SRC
+# ../../zinnia/libzinnia.cpp # current msw NOT need this
 SOURCES += ../../main.cpp \
-    ../../zinnia/libzinnia.cpp
+    ../../handwritor.cpp
 
 
-##
-HEADERS += ../../zinnia/common.h \
-	../../zinnia/feature.h \
-	../../zinnia/freelist.h \
-	../../zinnia/mmap.h \
-	../../zinnia/param.h \
-	../../zinnia/scoped_ptr.h \
-	../../zinnia/sexp.h \
-	../../zinnia/stream_wrapper.h \
-	../../zinnia/svm.h \
-	../../zinnia/zinnia.h
+## MOC H
+HEADERS += \
+    ../../include/handwritor.h
