@@ -41,6 +41,7 @@
 
 #include <iostream> /* std .. */
 #include "handwritor.h" /* class handwritor */
+#include <QtCore/QDebug>
 #include <QtGui/QPainter> /* QPainter */
 
 
@@ -303,14 +304,16 @@ void handwritor::append_stroke(LineStroke& stroke)
 }
 
 void handwritor::genbuttonstate (void) {
+	this->up->hide();
+	this->down->hide();
     for (int i=0; i<10;i++) {
         candidate_btns[i]->hide();
-        if(index<allpage)
-        {
-            if(index*10+i<dstr.count())
-            {
-                candidate_btns[i]->setText(dstr[index*10+i]);
+        if (index<allpage) {
+            if (index * 10 + i < dstr.count()) {
+                candidate_btns[i]->setText(dstr[index * 10+i]);
                 candidate_btns[i]->show();
+				this->up->show();
+				this->down->show();
             }
         }
     }
@@ -331,12 +334,28 @@ void handwritor::turnpagedown()
     genbuttonstate();
 }
 
-void handwritor::chooseQchar()
-{
-    QPushButton* push=static_cast<QPushButton*>(sender());
-    emit routestring(push->text()[0]);
+void handwritor::chooseQchar (void) {
+	static QString chose;
 
-}
+	/*
+    QPushButton* push=static_cast<QPushButton *>(sender());
+    emit routestring(push->text()[0]);
+	*/
+
+	QPushButton * b = static_cast<QPushButton *>(sender());
+	chose.clear();
+	chose = b->text();
+    emit routestring(chose[0]);
+	// std::cout << "SELECTED:" << chose.toLocal8Bit().data() << std::endl;
+	fprintf(stdout, "SELECTED: %s\n", chose.toUtf8().data());
+	fflush(stdout);
+
+	this->up->hide();
+	this->down->hide();
+    for (int i=0; i<10;i++) {
+        candidate_btns[i]->hide();
+    }
+} /* handwritor::chooseQchar */
 
 void handwritor::stok2qchar()
 {

@@ -22,6 +22,7 @@ int main (int argc, char *argv[]) {
 	fprintf(stderr, "%s +%d: %s\n", __FILE__, __LINE__, __func__);
 	fflush(stderr);
     QApplication a(argc, argv);
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
 	fprintf(stderr, "%s +%d: %s\n", __FILE__, __LINE__, __func__);
 	fflush(stderr);
