@@ -1,0 +1,60 @@
+采用zinnia手写识别引擎，掌握zinnia 引擎接口，使用Qt编译zinnia的源代码。
+
+
+下面给出笔者实现的一步一步的过程。
+Download
+    Zinnia is free software; you can redistribute it and/or modify it under the terms of the new BSD License
+    Zinnia main program
+    Source
+        zinnia-0.06.tar.gz:download
+        No recognition models are included.
+    Zinnia Recognition models
+    Zinnia-Tomoe
+        Model files trained with Tomoe data: download
+        Licence of Zinnia-tomoe is the same as that of Tomoe
+
+Install
+UNIX
+ % tar zxfv zinnia-X.X.tar.gz
+ % cd zinnia-X.X
+ % ./configure
+ % make
+ % su
+ # make install
+
+Install recognition models
+
+% tar zxfv zinnia-tomoe-XXXX.tar.gz
+% zinnia-tomoe-XXXX
+% ./configure
+% make
+% su
+# make install
+
+
+下载两个文件第一个是zinnia源码包，第二个是zinnia识别需要的数据（注：压缩包中有两txt文件
+一个是cn，一个是jp）。zinnia编译以后，有好几个可执行文件，
+其中zinnia_convert,是将刚才压缩包的txt转化成model文件的，
+不过笔者给出的代码中已经有.model文件了。
+
+如果上述都做成功了，说明你用gcc 编译zinnia没问题，用Qt编译也就肯定没什么大碍，那就试试把
+新建Qt控制台工程，把zinnia源码目录中的.h 和.cpp（子目录的不用拷贝），
+拷贝到工程下然后删除zinna.cpp ,zinnia_convert.cpp,zinnia_learn.cpp,
+拷贝源码目录下的sdk目录下的example.cpp到工程中，最后把所有文件加入工程，
+
+zinnia_convert handwriting-zh_CN.model.txt handwriting-zh_CN.model
+把, model 文件放入工程目录然后修改common.h
+
+#ifdef HAVE_CONFIG_H
+#include “config.h”
+#endif
+
+去掉#ifdef HAVE_CONFIG_H 和 #endif
+
+最后把example.cpp和main.cpp 文件整合一下，就可以用Qt编译了，然后移植就简单了。
+
+最后笔者给出自己的源码。
+http://download.csdn.net/source/3081864
+里面多了几个文件时窗口文件。
+
+(2015-04-16 14:38:21 http://blog.sina.com.cn/s/blog_791f544a0100skz1.html)
