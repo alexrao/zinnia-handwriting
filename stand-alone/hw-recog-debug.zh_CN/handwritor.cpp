@@ -44,37 +44,26 @@
 #include <QtGui/QPainter> /* QPainter */
 
 
-size_t handwritor::writor_width_fixed = 480 - 64;
-size_t handwritor::writor_height_fixed = 480 - 64;
+size_t handwritor::writor_width_fixed = 400;
+size_t handwritor::writor_height_fixed = 400;
 int handwritor::writor_pen_w_fixed = 4;
 
 
 #define __STLST_AL \
-	"background-color: #ffffff; color: #0000a0; font-weight: bold; " \
+	"background-color: #87cefa; color: #ff0000; font-weight: bold; " \
 	"border-radius: 8px"
 
 
 handwritor::handwritor (int * ret, char * err, QWidget * focus,
-	QWidget * attached, const char * model, QWidget * parent)
+	const char * model, QWidget * parent)
 	: QWidget(parent), allpage(0), index(0) {
 	int i, open_result;
 	char errstr[HANDWRITOR_ERR_MIN];
 	QSpacerItem * spacer;
+	QPalette palette;
 	QFont font;
 
 	this->destroyed = false;
-
-	if (NULL == attached) {
-		if (parent) {
-			this->attached = parent;
-		} else {
-			this->attached = this;
-		}
-	} else {
-		this->attached = attached;
-	}
-
-	QVBoxLayout * master_layout= new QVBoxLayout(this);
 
 	this->writor_layout = NULL;
 	this->option_layout = NULL;
@@ -110,20 +99,29 @@ handwritor::handwritor (int * ret, char * err, QWidget * focus,
 
 	/* writor */
 	this->setContentsMargins(0, 0, 0, 0);
+	this->setFixedSize(writor_width_fixed, writor_height_fixed);
+	this->setAutoFillBackground(true);
+	palette.setColor(QPalette::Background, QColor(0xff, 0xff, 0xff));
+	this->setPalette(palette);
+
+	master_layout= new QVBoxLayout(this);
+
 	this->writor_layout = new QHBoxLayout();
 	this->writor_layout->setContentsMargins(0, 0, 0, 0);
-	spacer = new QSpacerItem(handwritor::writor_width_fixed - 10,
-		handwritor::writor_height_fixed - 10);
+
+	spacer = new QSpacerItem(handwritor::writor_width_fixed - 64 - 10,
+		handwritor::writor_height_fixed - 64 - 10);
 	this->writor_layout->addItem(spacer);
 
 	this->option_layout = new QVBoxLayout();
 	this->option_layout->setContentsMargins(0, 0, 0, 0);
+
 	spacer = new QSpacerItem(36, 24);
 	this->option_layout->addItem(spacer);
 
-	this->up = new QPushButton(tr("上一页"), this->attached);
-	this->up->setFixedSize(48, 36);
-	font.setPixelSize(12);
+	this->up = new QPushButton(tr("<<"), this);
+	this->up->setFixedSize(36, 36);
+	font.setPixelSize(14);
 	this->up->setFont(font);
 	this->up->setStyleSheet(__STLST_AL);
 	this->option_layout->addWidget(this->up);
@@ -131,8 +129,8 @@ handwritor::handwritor (int * ret, char * err, QWidget * focus,
 	spacer = new QSpacerItem(36, 24);
 	this->option_layout->addItem(spacer);
 
-	this->down = new QPushButton(tr("下一页"), this->attached);
-	this->down->setFixedSize(48, 36);
+	this->down = new QPushButton(tr(">>"), this);
+	this->down->setFixedSize(36, 36);
 	this->down->setFont(font);
 	this->down->setStyleSheet(__STLST_AL);
 	this->option_layout->addWidget(this->down);
@@ -140,32 +138,31 @@ handwritor::handwritor (int * ret, char * err, QWidget * focus,
 	spacer = new QSpacerItem(36, 24);
 	this->option_layout->addItem(spacer);
 
-	this->option_layout->setAlignment(this->up, Qt::AlignCenter);
-	this->option_layout->setAlignment(this->down, Qt::AlignCenter);
+	this->option_layout->setAlignment(this->up,
+		Qt::AlignRight | Qt::AlignVCenter);
+	this->option_layout->setAlignment(this->down,
+		Qt::AlignRight | Qt::AlignVCenter);
 	this->option_layout->setStretch(0, 1);
 	this->option_layout->setStretch(1, 1);
 	this->option_layout->setStretch(2, 1);
 	this->option_layout->setStretch(3, 1);
 	this->option_layout->setStretch(4, 1);
 
+	/*
 	this->option_layout->setStretch(0, 7);
 	this->option_layout->setStretch(1, 1);
-
-	fprintf(stderr, "%s +%d: %s\n", __FILE__, __LINE__, __func__);
-	fflush(stderr);
+	*/
 
 	this->candidate_layout = new QHBoxLayout();
 	this->candidate_layout->setContentsMargins(5, 0, 5, 0);
 	/* ready candidate_btns */
 	for (i = 0; i < 10; ++i) {
-		candidate_btns[i] = new QPushButton(this->attached);
-		candidate_btns[i]->setFixedSize(48, 48);
+		candidate_btns[i] = new QPushButton(this);
+		candidate_btns[i]->setFixedSize(36, 36);
 		candidate_btns[i]->setFont(font);
 		candidate_btns[i]->setStyleSheet(__STLST_AL);
 		this->candidate_layout->addWidget(candidate_btns[i]);
 	}
-	fprintf(stderr, "%s +%d: %s\n", __FILE__, __LINE__, __func__);
-	fflush(stderr);
 
 	this->writor_layout->addLayout(this->option_layout);
 	this->writor_layout->setAlignment(this->option_layout, Qt::AlignCenter);
@@ -215,6 +212,12 @@ int handwritor::destroy (void) {
 	if (this->writor_layout) {
 		QHBoxLayout * d = this->writor_layout;
 		this->writor_layout = NULL;
+		delete d;
+	}
+
+	if (this->master_layout) {
+		QVBoxLayout * d = this->master_layout;
+		this->master_layout = NULL;
 		delete d;
 	}
 
@@ -400,13 +403,16 @@ void handwritor::recognize()
 
 void handwritor::paintEvent(QPaintEvent *event)
 {
-    QPainter painter(this->attached);
+    QPainter painter(this);
 
 	/*
 	painter.drawLine(0, 125, 250, 125);
 	painter.drawLine(125, 0, 125, 250);
 	*/
 	/* - */
+    QPen pen_b;
+	pen_b.setStyle(Qt::DotLine);
+    painter.setPen(pen_b);
 	painter.drawLine(0, handwritor::writor_height_fixed/2,
 		handwritor::writor_width_fixed, handwritor::writor_height_fixed/2);
 	/* | */

@@ -84,12 +84,11 @@ class handwritor : public QWidget {
 
 /* err min HANDWRITOR_ERR_MIN */
 public: handwritor(int * ret, char * err, QWidget * focus,
-	QWidget * attached = 0, const char * model = 0, QWidget * parent = 0);
+	const char * model = 0, QWidget * parent = 0);
 public: ~handwritor (void) { destroy(); }
 public: int destroy(void);
 public: bool is_destroyed (void) { return destroyed; }
 private: bool destroyed;
-protected: QWidget * attached;
 private: static size_t writor_width_fixed;
 private: static size_t writor_height_fixed;
 private: static int writor_pen_w_fixed;
@@ -117,6 +116,7 @@ protected slots: void turnpageup(void);
 protected slots: void turnpagedown(void);
 protected slots: void chooseQchar(void);
 
+private: QVBoxLayout * master_layout;
 private: QHBoxLayout * writor_layout;
 private: QVBoxLayout * option_layout;
 private: QHBoxLayout * candidate_layout;

@@ -228,13 +228,8 @@ int handwritor_debug::ui_setup (void) {
 	prompt->setFont(font);
 	idv_center_layout->addWidget(prompt);/* XXX-3rd */
 
-	fprintf(stderr, "%s +%d: %s\n", __FILE__, __LINE__, __func__);
-	fflush(stderr);
-	// input = new handwritor(NULL, NULL, this->hwdbg, this->central_widget,
-	input = new handwritor(NULL, NULL, this->hwdbg, NULL,
-		NULL, NULL);
-	fprintf(stderr, "%s +%d: %s\n", __FILE__, __LINE__, __func__);
-	fflush(stderr);
+	input = new handwritor(NULL, NULL, this->hwdbg,	NULL, NULL);
+	palette.setColor(QPalette::Background, QColor(0xff, 0xff, 0xff, 0xff));
 	input->setObjectName(QString::fromUtf8("input"));
 	idv_center_layout->addWidget(input);/* XXX-4th */
 	idv_center_layout->setAlignment(input, Qt::AlignHCenter);
