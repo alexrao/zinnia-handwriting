@@ -39,7 +39,7 @@ CXXFLAGS += -DUNICODE
 # deps
 CXXFLAGS += -Wp,-MD,$@.d
 ifneq ($(GCCONW),)
-CXXFLAGS += -I../../../usr/qt-5.4.1-o-msw/5.4/mingw491_32/include
+CXXFLAGS += -I../../../../../usr/qt-5.4.1-o-msw/5.4/mingw491_32/include
 endif
 CXXFLAGS += -DID_QT_VERSION=$(ID_QT_VERSION)
 
@@ -60,12 +60,12 @@ ifneq ($(MINGW32),)
     LDFLAGS += -lQtCore4
     LDFLAGS += -lQtGui4
   else
-    LDFLAGS += -L../../../usr/qt-5.4.1-o-msw/5.4/mingw491_32/lib
+    LDFLAGS += -L../../../../../usr/qt-5.4.1-o-msw/5.4/mingw491_32/lib
     LDFLAGS += -lQt5Core
     LDFLAGS += -lQt5Gui
     LDFLAGS += -lQt5Widgets
   endif # ifneq ($(QT4),)
-  LDEXTRA += $(BUILD_ROOT)/lib/libzinnia.lib
+  LDEXTRA += $(BUILD_ROOT)/zinnia/lib/libzinnia.lib
 else
   LDFLAGS += -L$(BUILD_ROOT)/lib
   LDFLAGS += -lQtCore
@@ -113,7 +113,7 @@ OBJS += $(OBJS_COMMON)
 OBJS += $(OUT)/main$(SUFFIX_OBJ)
 OBJS += $(OUT)/handwritor$(SUFFIX_OBJ)
 # # moc_
-OBJS += $(OUT)/moc_/handwritor$(SUFFIX_OBJ)
+OBJS += $(OUT)/moc_handwritor$(SUFFIX_OBJ)
 
 
 #############################################################################
@@ -134,7 +134,8 @@ $(OUT)/%.o: %.c
 $(OUT)/%.o: %.cpp
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
-$(OUT)/moc_%.cpp: include/%.h
+# $(OUT)/moc_%.cpp: include/%.h
+$(OUT)/moc_%.cpp: %.h
 	$(QT_MOC) -o $@ $< $(CXXFLAGS_MOC)
 
 

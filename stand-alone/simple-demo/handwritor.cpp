@@ -41,7 +41,7 @@
 
 #include <iostream> /* std .. */
 #include "handwritor.h" /* class handwritor */
-#include <QPainter> /* QPainter */
+#include <QtGui/QPainter> /* QPainter */
 
 
 handwritor::handwritor(QWidget* parent):QWidget(parent),allpage(0),index(0)
