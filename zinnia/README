@@ -1,0 +1,16 @@
+-- origin
+- libzinnia.cpp
+. from: origin/0.06/zinnia-0.06
+
+- include/
+  ├── common.h
+  ├── feature.h
+  ├── freelist.h
+  ├── mmap.h
+  ├── param.h
+  ├── scoped_ptr.h
+  ├── sexp.h
+  ├── stream_wrapper.h
+  ├── svm.h
+  └── zinnia.h
+. from: origin/0.06/zinnia-0.06 and to include
