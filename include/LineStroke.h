@@ -70,7 +70,7 @@ public: ~LineStroke (void) {
 } /* ~LineStroke */
 
 public: int segments;/* 包含有的段数目 */
-public: QVector <QPoint *> points; //包含的用来构成笔画的点
+public: QVector <QPoint *> points;/* 包含的用来构成笔画的点 */
 };/* class LineStroke */
 
 #endif /* !defined(_LINESTROKE_H_) */
