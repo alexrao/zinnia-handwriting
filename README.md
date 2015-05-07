@@ -1,5 +1,9 @@
 zinnia-handwriting
 ==================
+- E.x. reference: http://git.oschina.net/yuiwong/portable-inputmethod.yw
+  git clone https://git.oschina.net/yuiwong/portable-inputmethod.yw.git
+  (also with another handwriting input method).
+
 - Description
 . A handwriting based recognition engine "Zinnia"
 . Current support gui-lib(s):
